@@ -17,10 +17,19 @@ import ContactPage from './pages/Contact'
 import EventsPage from './pages/Events'
 import FAQsPage from './pages/FAQs'
 import LearnMorePage from './pages/LearnMore'
+import Login from './pages/Login'
 import OrganizationsPage from './pages/Organizations'
 import VolunteerResourcesPage from './pages/VolunteerResources'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
+import VolunteerDashboard from './pages/VolunteerDashboard'
+import VolunteerProfile from './pages/VolunteerProfile'
+import OrganizationDashboard from './pages/OrganizationDashboard'
+import OrganizationProfile from './pages/OrganizationProfile'
+import AdminDashboard from './pages/AdminDashboard'
+import CreateDonation from './pages/CreateDonation'
+import MyDonations from './pages/MyDonations'
+import DonationDetails from './pages/DonationDetails'
 
 // Home page component for the main landing page
 const HomePage = () => {
@@ -95,9 +104,18 @@ function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
         <Route path="/learn-more" element={<LearnMorePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/volunteer-resources" element={<VolunteerResourcesPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/volunteer-dashboard" element={<VolunteerDashboard />} />
+        <Route path="/volunteer-profile" element={<VolunteerProfile />} />
+        <Route path="/organization-dashboard" element={<OrganizationDashboard />} />
+        <Route path="/organization-profile" element={<OrganizationProfile />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/create-donation" element={<CreateDonation />} />
+        <Route path="/my-donations" element={<MyDonations />} />
+        <Route path="/donation-details/:id" element={<DonationDetails />} />
       </Routes>
     </Router>
   )

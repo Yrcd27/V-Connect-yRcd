@@ -109,7 +109,7 @@ const Navbar = ({ scrollY }) => {
         {/* CTA Buttons */}
         <div className="hidden md:flex items-center space-x-4">
           <button onClick={() => handleNavClick('donations')} className="btn-outline">Donate</button>
-          <button className="btn-primary">Log In</button>
+          <Link to="/login" className="btn-primary">Log In</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -146,7 +146,7 @@ const Navbar = ({ scrollY }) => {
             <a onClick={(e) => handleNavClick('testimonials', e)} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">Testimonials</a>
             <div className="flex flex-col space-y-2 pt-2 border-t border-gray-100">
               <Link to="/donations" className="btn-outline w-full text-center">Donate</Link>
-              <button className="btn-primary w-full">Log In</button>
+              <Link to="/login" className="btn-primary w-full text-center">Log In</Link>
             </div>
           </nav>
         </motion.div>

@@ -859,9 +859,9 @@ const LearnMore = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                <button className="bg-white text-primary hover:bg-blue-50 py-3 px-8 rounded-md font-medium transition-colors">
+                <Link to="/login?type=volunteer" className="bg-white text-primary hover:bg-blue-50 py-3 px-8 rounded-md font-medium transition-colors text-center">
                   Sign Up Now
-                </button>
+                </Link>
                 <Link to="/" className="border-2 border-white bg-transparent hover:bg-white/10 py-3 px-8 rounded-md font-medium transition-colors">
                   Back to Home
                 </Link>
