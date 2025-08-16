@@ -22,26 +22,59 @@ const Navbar = ({ scrollY }) => {
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
+    // Add a small delay before adding the event listener to prevent immediate closing
+    let timeoutId;
+    if (isMenuOpen) {
+      timeoutId = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside)
+      }, 100)
+    }
+    
     return () => {
       document.removeEventListener('click', handleClickOutside)
+      clearTimeout(timeoutId)
     }
   }, [isMenuOpen])
 
-  // Handle nav item click - navigate to home page section or smooth scroll
-  const handleNavClick = (id) => {
-    setIsMenuOpen(false)
-    
-    if (isHomePage) {
-      // If we're already on the home page, just scroll to the section
-      const element = document.getElementById(id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    } else {
-      // If we're on another page, navigate to home with the section hash
-      navigate(`/#${id}`)
+  // Handle scrolling to top for home button
+  const handleScrollToTop = (event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
     }
+    
+    setTimeout(() => {
+      setIsMenuOpen(false);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 10);
+  }
+
+  // Handle nav item click - navigate to home page section or smooth scroll
+  const handleNavClick = (id, event) => {
+    // Prevent default behavior to avoid any conflicts
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
+    // Close the menu with a slight delay to ensure the click is processed first
+    setTimeout(() => {
+      setIsMenuOpen(false);
+      
+      if (isHomePage) {
+        // If we're already on the home page, just scroll to the section
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      } else {
+        // If we're on another page, navigate to home with the section hash
+        navigate(`/#${id}`)
+      }
+    }, 10);
   }
 
   return (
@@ -62,10 +95,15 @@ const Navbar = ({ scrollY }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-12">
-          <Link to="/" className={`text-dark hover:text-primary cursor-pointer transition-colors font-bold ${location.pathname === '/' ? 'text-primary' : ''}`}>Home</Link>
-          <a onClick={() => handleNavClick('about')} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">About</a>
-          <a onClick={() => handleNavClick('how-to-use')} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">How It Works</a>
-          <a onClick={() => handleNavClick('testimonials')} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">Testimonials</a>
+          <a 
+            onClick={(e) => isHomePage ? handleScrollToTop(e) : navigate('/')} 
+            className={`text-dark hover:text-primary cursor-pointer transition-colors font-bold ${location.pathname === '/' ? 'text-primary' : ''}`}
+          >
+            Home
+          </a>
+          <a onClick={(e) => handleNavClick('about', e)} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">About</a>
+          <a onClick={(e) => handleNavClick('how-to-use', e)} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">How It Works</a>
+          <a onClick={(e) => handleNavClick('testimonials', e)} className="text-dark hover:text-primary cursor-pointer transition-colors font-bold">Testimonials</a>
         </nav>
 
         {/* CTA Buttons */}
@@ -77,7 +115,10 @@ const Navbar = ({ scrollY }) => {
         {/* Mobile Menu Button */}
         <button 
           className="md:hidden text-dark p-2 menu-button" 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
           aria-label="Toggle menu"
         >
           {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -91,12 +132,18 @@ const Navbar = ({ scrollY }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
+          onClick={(e) => e.stopPropagation()}
         >
           <nav className="flex flex-col space-y-4">
-            <Link to="/" className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">Home</Link>
-            <a onClick={() => handleNavClick('about')} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">About</a>
-            <a onClick={() => handleNavClick('how-to-use')} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">How It Works</a>
-            <a onClick={() => handleNavClick('testimonials')} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">Testimonials</a>
+            <a 
+              onClick={(e) => isHomePage ? handleScrollToTop(e) : navigate('/')}
+              className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold"
+            >
+              Home
+            </a>
+            <a onClick={(e) => handleNavClick('about', e)} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">About</a>
+            <a onClick={(e) => handleNavClick('how-to-use', e)} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">How It Works</a>
+            <a onClick={(e) => handleNavClick('testimonials', e)} className="text-dark hover:text-primary cursor-pointer px-4 py-2 hover:bg-gray-50 rounded-md font-bold">Testimonials</a>
             <div className="flex flex-col space-y-2 pt-2 border-t border-gray-100">
               <Link to="/donations" className="btn-outline w-full text-center">Donate</Link>
               <button className="btn-primary w-full">Log In</button>

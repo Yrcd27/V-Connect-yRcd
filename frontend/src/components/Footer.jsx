@@ -1,8 +1,26 @@
 import { FiHeart, FiGithub, FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHomePage = location.pathname === '/'
+  
+  // Function to handle home link click
+  const handleHomeClick = (e) => {
+    e.preventDefault()
+    if (isHomePage) {
+      // If already on home page, scroll to top
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    } else {
+      // Navigate to home page
+      navigate('/')
+    }
+  }
 
   return (
     <footer className="bg-dark text-white pt-16 pb-8">
@@ -39,9 +57,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link></li>
+              <li><a href="/" onClick={handleHomeClick} className="text-gray-300 hover:text-white transition-colors">Home</a></li>
               <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">About</Link></li>
-              <li><Link to="/organizations" className="text-gray-300 hover:text-white transition-colors">Organizations</Link></li>
+              <li><Link to="/learn-more" className="text-gray-300 hover:text-white transition-colors">Learn More</Link></li>
               <li><Link to="/volunteer-resources" className="text-gray-300 hover:text-white transition-colors">Volunteer Resources</Link></li>
             </ul>
           </div>
